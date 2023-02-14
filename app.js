@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 const Campground = require('./models/campground');
 
 mongoose.connect('mongodb://localhost:27017/fer-camp');
@@ -17,6 +18,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({extended: true}));
+app.use(methodOverride('_method'));
 
 app.get('/', (req, res) =>{
     res.render('home');
@@ -45,7 +47,18 @@ app.get('/campgrounds/:id', async (req, res) =>{
     res.render('campgrounds/show', {campground});
 });
 
+app.get('/campgrounds/:id/edit', async (req, res) =>{
+    const id = req.params.id;
+    const campground = await Campground.findById(id);
+    res.render('campgrounds/edit', {campground});
+});
 
+app.put('/campgrounds/:id', async (req, res) =>{
+    const {id} = req.params; // Es lo mismo que const id = req.params.id
+    //console.log({...req.body.campground}); //{ title: 'La cabaña', location: 'Jalisco' }
+    const campground = await Campground.findByIdAndUpdate(id, {...req.body.campground}); //{runValidators: true, new: true}
+    res.redirect(`/campgrounds/${campground._id}`);
+});
 
 app.listen(3000, () =>{
     console.log('Serving on port 3000');
