@@ -20,11 +20,11 @@ app.get('/', (req, res) =>{
     res.render('home');
 })
 
-app.get('/makecampground', async (req, res) =>{
-    const camp = new Campground({title: 'Las cabañas', description: 'Un lugar agradable para estar unos días de vacaciones, con un gran bosque y aire fresco'});
-    await camp.save();
-    res.send(camp);
-});
+app.get('/campgrounds', async (req, res) =>{
+    const campgrounds = await Campground.find({});
+    res.render('campgrounds/index', {campgrounds});
+})
+
 
 app.listen(3000, () =>{
     console.log('Serving on port 3000');
