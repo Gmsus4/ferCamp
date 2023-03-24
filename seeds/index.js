@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const cities = require('./cities');
 const Campground = require('../models/campground');
 const {places, descriptors} = require('./seedHelpers');
-mongoose.connect('mongodb://localhost:27017/fer-camp');
+mongoose.connect('mongodb://127.0.0.1:27017/fer-camp');
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
