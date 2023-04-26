@@ -8,6 +8,7 @@ const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const Campground = require('./models/campground');
+const Review = require('./models/review');
 const { error } = require('console');
 
 mongoose.connect('mongodb://127.0.0.1:27017/fer-camp');
@@ -85,7 +86,12 @@ app.delete('/campgrounds/:id', catchAsync (async (req, res) =>{
 }));
 
 app.post('/campgrounds/:id/reviews', catchAsync(async(req, res) => {
-    res.send('You made it');
+    const campground = await Campground.findById(req.params.id);
+    const review = new Review(req.body.review);
+    campground.reviews.push(review);
+    await review.save();
+    await campground.save();
+    res.redirect(`/campgrounds/${campground._id}`);
 }));
 
 app.use('*', (req, res, next) => {
