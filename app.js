@@ -9,6 +9,7 @@ const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const Campground = require('./models/campground');
 const Review = require('./models/review');
+const campgrounds = require('./routes/campground')
 const { error } = require('console');
 
 mongoose.connect('mongodb://127.0.0.1:27017/fer-camp');
@@ -28,16 +29,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
 
-const validateCampground = (req, res, next) => {
-    const { error } = campgroundSchema.validate(req.body);
-    if(error){
-        const msg = error.details.map(el => el.message).join(',');
-        throw new ExpressError(msg, 400);
-    } else{
-        next();
-    }
-}
-
 const validateReview = (req, res, next) => {
     const { error } = reviewSchema.validate(req.body);
     if(error){
@@ -47,53 +38,14 @@ const validateReview = (req, res, next) => {
         next();
     }
 }
+
+app.use('/campgrounds', campgrounds);
+
 app.get('/', (req, res) =>{
     res.render('home');
 })
 
-app.get('/campgrounds', async (req, res) =>{ //Mostrar los campamentos
-    const campgrounds = await Campground.find({});
-    res.render('campgrounds/index', {campgrounds});
-})
-
-app.get('/campgrounds/new', (req, res) =>{
-    res.render('campgrounds/new');
-});
-
-app.post('/campgrounds', validateCampground, catchAsync(async (req, res, next) =>{
-    //if(!req.body.campground) throw new ExpressError('Invalid Campground Data', 400)
-    const data = req.body.campground; //{"title":"Campamento chocolate","location":"Jalisco"}
-    const campground = new Campground(data);
-    await campground.save();
-    //console.log(campground); //{title: 'Campamento chocolate', location: 'Jalisco', _id: new ObjectId("63ebdadd2aad68670b210892"), __v: 0}
-    res.redirect(`/campgrounds/${campground._id}`);
-}))
-
-app.get('/campgrounds/:id', catchAsync (async (req, res) =>{
-    const id = req.params.id;
-    const campground = await Campground.findById(id).populate('reviews');
-    /* console.log(campground); */
-    res.render('campgrounds/show', {campground});
-}));
-
-app.get('/campgrounds/:id/edit', catchAsync (async (req, res) =>{
-    const id = req.params.id;
-    const campground = await Campground.findById(id);
-    res.render('campgrounds/edit', {campground});
-}));
-
-app.put('/campgrounds/:id', validateCampground, catchAsync (async (req, res) =>{
-    const {id} = req.params; // Es lo mismo que const id = req.params.id
-    //console.log({...req.body.campground}); //{ title: 'La cabaña', location: 'Jalisco' }
-    const campground = await Campground.findByIdAndUpdate(id, {...req.body.campground}); //{runValidators: true, new: true}
-    res.redirect(`/campgrounds/${campground._id}`);
-}));
-
-app.delete('/campgrounds/:id', catchAsync (async (req, res) =>{
-    const {id} = req.params;
-    await Campground.findByIdAndDelete(id);
-    res.redirect('/campgrounds');
-}));
+//Aquí estaban las rutas de los campgrounds
 
 app.post('/campgrounds/:id/reviews', validateReview, catchAsync(async(req, res) => {
     const campground = await Campground.findById(req.params.id);
