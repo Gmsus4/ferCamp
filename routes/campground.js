@@ -31,19 +31,27 @@ router.post('/', validateCampground, catchAsync(async (req, res, next) =>{
     const campground = new Campground(data);
     await campground.save();
     //console.log(campground); //{title: 'Campamento chocolate', location: 'Jalisco', _id: new ObjectId("63ebdadd2aad68670b210892"), __v: 0}
+    req.flash('success', 'Nuevo campamento agregado correctamente');
     res.redirect(`/campgrounds/${campground._id}`);
 }))
 
 router.get('/:id', catchAsync (async (req, res) =>{
     const id = req.params.id;
     const campground = await Campground.findById(id).populate('reviews');
-    /* console.log(campground); */
-    res.render('campgrounds/show', {campground});
+    if(!campground){ //Si no es un campamento....
+        req.flash('error', 'No se encontró el campamento');
+        return res.redirect('/campgrounds');
+    }
+    res.render('campgrounds/show', {campground });
 }));
 
 router.get('/:id/edit', catchAsync (async (req, res) =>{
     const id = req.params.id;
     const campground = await Campground.findById(id);
+    if(!campground){ //Si no es un campamento....
+        req.flash('error', 'No se encontró el campamento');
+        return res.redirect('/campgrounds');
+    }
     res.render('campgrounds/edit', {campground});
 }));
 
@@ -51,12 +59,14 @@ router.put('/:id', validateCampground, catchAsync (async (req, res) =>{
     const {id} = req.params; // Es lo mismo que const id = req.params.id
     //console.log({...req.body.campground}); //{ title: 'La cabaña', location: 'Jalisco' }
     const campground = await Campground.findByIdAndUpdate(id, {...req.body.campground}); //{runValidators: true, new: true}
+    req.flash('success', 'Campamento actualizado satisfactoriamente');
     res.redirect(`/campgrounds/${campground._id}`);
 }));
 
 router.delete('/:id', catchAsync (async (req, res) =>{
     const {id} = req.params;
     await Campground.findByIdAndDelete(id);
+    req.flash('success', 'Campamento eliminado');
     res.redirect('/campgrounds');
 }));
 
