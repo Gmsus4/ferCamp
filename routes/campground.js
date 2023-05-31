@@ -28,18 +28,18 @@ router.get('/new', isLoggedIn, (req, res) =>{
 });
 
 router.post('/', isLoggedIn, validateCampground, catchAsync(async (req, res, next) =>{
-    //if(!req.body.campground) throw new ExpressError('Invalid Campground Data', 400)
-    const data = req.body.campground; //{"title":"Campamento chocolate","location":"Jalisco"}
+    const data = req.body.campground;
     const campground = new Campground(data);
+    campground.author = req.user._id
     await campground.save();
-    //console.log(campground); //{title: 'Campamento chocolate', location: 'Jalisco', _id: new ObjectId("63ebdadd2aad68670b210892"), __v: 0}
     req.flash('success', 'Nuevo campamento agregado correctamente');
     res.redirect(`/campgrounds/${campground._id}`);
 }))
 
 router.get('/:id', catchAsync (async (req, res) =>{
     const id = req.params.id;
-    const campground = await Campground.findById(id).populate('reviews');
+    const campground = await Campground.findById(id).populate('reviews').populate('author');
+    //console.log(campground);
     if(!campground){ //Si no es un campamento....
         req.flash('error', 'No se encontró el campamento');
         return res.redirect('/campgrounds');
