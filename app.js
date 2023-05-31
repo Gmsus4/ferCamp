@@ -55,6 +55,7 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
+    //console.log(req.user); // = {_id: new ObjectId("6476a4134db039869910f08c"), email: 'jesusfgm45@gmail.com', username: 'fer',__v: 0}
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
