@@ -15,7 +15,7 @@ const userRoutes = require('./routes/users')
 const campgroundsRoutes = require('./routes/campground');
 const reviewsRoutes = require('./routes/reviews');
 
-mongoose.connect('mongodb://127.0.0.1:27017/fer-camp');
+mongoose.connect('mongodb://127.0.0.1:27017/campgroundFer');
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));

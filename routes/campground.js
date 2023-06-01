@@ -17,17 +17,16 @@ router.get('/new', isLoggedIn, (req, res) =>{
 router.post('/', isLoggedIn, validateCampground, catchAsync(async (req, res, next) =>{
     const data = req.body.campground;
     const campground = new Campground(data);
-    campground.author = req.user._id
+    campground.author = req.user._id;
     await campground.save();
     req.flash('success', 'Nuevo campamento agregado correctamente');
     res.redirect(`/campgrounds/${campground._id}`);
 }))
 
 router.get('/:id', catchAsync (async (req, res) =>{
-    const id = req.params.id;
-    const campground = await Campground.findById(id).populate('reviews').populate('author');
-    //console.log(campground);
-    if(!campground){ //Si no es un campamento....
+    const campground = await Campground.findById(req.params.id).populate({ path: 'reviews', populate: { path: 'author' } }).populate('author');
+    //console.log(campground.reviews);
+    if(!campground){
         req.flash('error', 'No se encontró el campamento');
         return res.redirect('/campgrounds');
     }
