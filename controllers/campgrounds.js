@@ -1,4 +1,5 @@
 const Campground = require('../models/campground');
+const cloudinary = require('cloudinary').v2;
 
 module.exports.index = async (req, res) =>{ //Mostrar los campamentos
     const campgrounds = await Campground.find({});
@@ -45,6 +46,15 @@ module.exports.updateCampground = async (req, res) =>{
     const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
     campground.images.push(...imgs);
     await campground.save();
+    if(req.body.deleteImages){
+        for(let filename of req.body.deleteImages){
+            await cloudinary.uploader.destroy(filename);
+        }
+        //- **`$pull`** se utiliza para eliminar elementos de un array en MongoDB.
+        await campground.updateOne({$pull: {images: {filename: {$in: req.body.deleteImages}}}});
+        //Eliminar las imágenes que coincidan con el nombre de el array deleteImages
+        console.log(campground);
+    }
     req.flash('success', 'Campamento actualizado satisfactoriamente');
     res.redirect(`/campgrounds/${campground._id}`);
 }
