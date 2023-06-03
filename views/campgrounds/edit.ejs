@@ -40,16 +40,20 @@
                         <label class="input-group-text" for="image">Browse</label>
                     </div>
                 </div>
-                <div class="mb-3">
-                    <% campground.images.forEach(function(img, i) { %>
-                        <img src="<%= img.url %>" alt="" class="img-thumbnail">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="<%= img.filename %>" id="image<%= i %>" name="deleteImages[]">
-                            <label class="form-check-label" for="image<%= i %>">
-                              Delete?
+                <h6>Delete Images: </h6>
+                <div class="row row-cols-1 row-cols-md-4 g-4 mb-3">
+                    <% campground.images.forEach((image, i) => { %>
+                    <div class="col">
+                        <div class="card">
+                            <label style="cursor: pointer;" for="image-<%= i %>"><img class="card-img" src="<%= image.thumbnail %>" alt="">
+                                <div class="card-img-overlay text-end pt-1 pe-2">
+                                    <input class="form-check-input" type="checkbox" name="deleteImages[]"
+                                        value="<%= image.filename %>" id="image-<%= i %>">
+                                </div>
                             </label>
                         </div>
-                    <% }) %> 
+                    </div>
+                    <% }) %>
                 </div>
                 <div class="mb-3">
                     <button class="btn btn-info">Update Campground</button>
