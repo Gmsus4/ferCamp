@@ -1,0 +1,36 @@
+body {
+    height: 100vh; /* El 100vh para centar el contenido verticalmente  */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), /* Agregar un fondo tipo imágen pero con un degradado en negro, es como oscurecer la imágen  */
+    url("https://images.unsplash.com/photo-1559521783-1d1599583485?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80");
+    background-size: cover; /* Para que no se repita la imágen  */
+    background-position: center; /* Para que se centre la imágen  */
+    text-shadow: 0 0.05rem 0.1rem rgba(0, 0, 0, 0.5);  /* Agrega sombras en el texto */
+    box-shadow: inset 0 0 5rem rgba(0, 0, 0, 0.5); /* Agrega un poco de sombra alrededor del objeto  */
+}
+.cover-container {
+  max-width: 60vw;  /* El div principal contendrá un ancho del 60vh  */
+}
+
+.nav-link {
+    padding: 0.25rem 0; /* Agregar padding arriba y a los lados */
+    font-weight: 700; /* Hacemos la letra más negrita */
+    color: rgba(255,255,255,0.5); /* Le asignamos el color blanco con una transparencia a la mitad  */
+    margin-left: 1rem; /* Le asignamos un margen hacia la izquierda de 1rem  */
+    border-bottom: 0.25rem solid transparent; /* Le asignamos un borde con transparencia  */
+}
+
+.nav-link:hover{
+    color: rgba(255,255,255,0.5); /* Al hacer hover le asigne el mismo color blanco */
+    border-bottom-color:rgba(255,255,255,0.5); /* Le asignaremos un borde abajo del link de color blanco con transparencia  */
+}
+
+.nav-link.active { 
+    color: white; /* Le asignamos el color blanco */
+    border-bottom-color:white; /* Y un borde abajo de color blanco */
+
+}
+
+.btn-secondary, .btn-secondary:hover{ /* Tanto en su estado normal como cuando se hace hover */
+    color: #333; /* Le damos un color más oscuro al boton secundario */
+    text-shadow: none; /* Le quitamos las sombras del texto */
+}

@@ -62,7 +62,7 @@ module.exports.updateCampground = async (req, res) =>{
         //- **`$pull`** se utiliza para eliminar elementos de un array en MongoDB.
         await campground.updateOne({$pull: {images: {filename: {$in: req.body.deleteImages}}}});
         //Eliminar las imágenes que coincidan con el nombre de el array deleteImages
-        console.log(campground);
+        /* console.log(campground); */
     }
     req.flash('success', 'Campamento actualizado satisfactoriamente');
     res.redirect(`/campgrounds/${campground._id}`);
