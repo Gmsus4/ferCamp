@@ -1,7 +1,7 @@
 mapboxgl.accessToken = mapToken;
 const map = new mapboxgl.Map({
   container: 'map',
-  style: 'mapbox://styles/mapbox/dark-v11',
+  style: 'mapbox://styles/mapbox/streets-v12',
   center: [-103.5917, 40.6699],
   zoom: 3
 });
@@ -83,9 +83,9 @@ map.on('load', () => {
   });
 
   map.on('click', 'unclustered-point', (e) => { //Cuando haces click en un solo cluster solitario
+    const { popUpMarkup } = e.features[0].properties;
+    console.log(popUpMarkup);
     const coordinates = e.features[0].geometry.coordinates.slice();
-    const mag = e.features[0].properties.mag;
-    const tsunami = e.features[0].properties.tsunami === 1 ? 'yes' : 'no';
 
     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
       coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
@@ -93,7 +93,7 @@ map.on('load', () => {
 
     new mapboxgl.Popup()
       .setLngLat(coordinates)
-      .setHTML(`magnitude: ${mag}<br>Was there a tsunami?: ${tsunami}`)
+      .setHTML(popUpMarkup)
       .addTo(map);
   });
 
