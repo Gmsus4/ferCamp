@@ -65,13 +65,6 @@ app.use((req, res, next) => {
     next();
 })
 
-app.get('/fakeUser', async (req, res) => {
-    const user = new User({email: 'fernando@gmail.com', username: 'elfer'})
-    const newUser = await User.register(user, 'monkey777'); //El registro de un usuario toma el modelo de usuario como instancia del modelo y luego la contraseña
-    // Y va a codificar esa contraseña, almacenarla, con suerte correctamente
-    res.send(newUser);
-});
-
 app.use('/', userRoutes);
 app.use('/campgrounds', campgroundsRoutes);
 app.use('/campgrounds/:id/reviews', reviewsRoutes);
