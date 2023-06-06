@@ -16,13 +16,15 @@ const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
+const MongoStore = require('connect-mongo');
 //const dbUrl = process.env.DB_URL;
+const dbUrl = 'mongodb://127.0.0.1:27017/campgroundFer';
 
 const userRoutes = require('./routes/users')
 const campgroundsRoutes = require('./routes/campground');
 const reviewsRoutes = require('./routes/reviews');
 
-mongoose.connect('mongodb://127.0.0.1:27017/campgroundFer');
+mongoose.connect(dbUrl);
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
@@ -41,7 +43,20 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize());
 
+const store = MongoStore.create ({
+    mongoUrl: dbUrl,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret: 'thisshouldbeabettersecret!'
+    }
+})
+
+store.on('error', function(e){
+    console.log('Session Store Error', e);
+})
+
 const sessionConfig = {
+    store: store,
     secret: 'thisshouldbebettersecret!',
     resave: false,
     saveUninitialized: true,
@@ -53,6 +68,7 @@ const sessionConfig = {
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
 } 
+
 app.use(session(sessionConfig));
 app.use(flash());
 app.use(helmet());
