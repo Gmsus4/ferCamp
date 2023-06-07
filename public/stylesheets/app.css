@@ -15,3 +15,16 @@
 .contain{
     margin-top: 400px;
 }
+
+@media (max-width: 771px){
+    .showmq{
+        display: grid;
+    }
+    .review{
+        width: 100%;
+    }
+    .img{
+        width: 100%;
+    }
+}
+
