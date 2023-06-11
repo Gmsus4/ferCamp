@@ -14,6 +14,7 @@ module.exports.createReview = async(req, res) => {
 
 module.exports.deleteReview = async(req, res) => {
     const { id, reviewId } = req.params;
+    //console.log(req.params); //Son los parámetros de la ruta!!!! en id de => app.use('/campgrounds/:id/reviews', reviewsRoutes); el reviewId de => router.delete('/:reviewId', isLoggedIn, isReviewAuthor, catchAsync (reviews.deleteReview));
     await Campground.findByIdAndUpdate(id, { $pull: {reviews: reviewId}})
     await Review.findByIdAndDelete(reviewId);
     req.flash('success', 'Comentario eliminado');
