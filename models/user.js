@@ -7,7 +7,13 @@ const UserSchema = new Schema({
         type: String,
         required: true,
         unique: true
-    }
+    },
+    urlPerfil: [
+        {
+            url: String,
+            filename: String
+        }     
+    ]
 });
 
 //Passport-Local Mongoose agregará un nombre de usuario, hash y campo de sal para almacenar el nombre de usuario, la contraseña hash y el valor de sal.

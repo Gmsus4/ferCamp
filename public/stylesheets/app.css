@@ -28,3 +28,55 @@
     }
 }
 
+/* Peril User */
+.cardPerfil{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.perfilImg{
+    width: 180px;
+    height: 180px;
+    border-radius: 100%;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+}
+
+.perfilImgNav, .authorImg {
+    cursor: pointer;
+    margin-right: 15px;
+    width: 35px;
+    height: 35px;
+    border-radius: 100%;
+    object-fit: cover;
+}
+
+.navbar-nav{
+    align-items: center;
+}
+
+.perfilNav{
+    display: flex;
+    align-items: center;
+}
+
+.perfilNav span{
+    color: whitesmoke;
+    margin-right: 15px;
+}
+
+.authorImg{
+    cursor: default;
+    margin: 0 10px;
+}
+
+.reviewUser{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 10px 0 20px 0;
+}
