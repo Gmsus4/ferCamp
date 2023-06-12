@@ -1,48 +1,48 @@
 <% layout('layouts/boilerplate') %>
 <div class="container d-flex justify-content-center align-items-center mt-5">
     <div class="row">
-        <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
+        <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4 mb-5">
             <div class="card shadow">
                 <img src="https://images.unsplash.com/photo-1571863533956-01c88e79957e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80"
                     alt="" class="card-img-top" />
                 <div class="card-body">
-                    <h5 class="card-title">Register</h5>
+                    <h5 class="card-title mb-3">Regístrate</h5>
                     <form action="/register" method="POST" class="validated-form" novalidate>
                         <div class="mb-3">
-                            <label class="form-label" for="username">Username</label>
+                            <label class="form-label" for="username">¿Cómo quieres que te llamemos?</label>
                             <input class="form-control" type="text" id="username" name="username" autofocus required>
                             <div class="valid-feedback">
-                                Looks good!
+                                Muy bien!
                             </div>
                             <div class="invalid-feedback">
-                                Enter a Username.
+                                Introduzca un nombre de usuario.
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label" for="email">Email</label>
+                            <label class="form-label" for="email">¿Cuál es tu email?</label>
                             <input class="form-control" type="email" id="email" name="email" required>
                             <div class="valid-feedback">
-                                Looks good!
+                                Muy bien!
                             </div>
                             <div class="invalid-feedback">
-                                Enter a Email.
+                                Es necesario que introduzcas tu email.
                             </div>
                         </div>
  
                         <div class="mb-3">
-                            <label class="form-label" for="password">Password</label>
+                            <label class="form-label" for="password">Crea una contraseña</label>
                             <input class="form-control" type="password" id="password" name="password" required>
                             <div class="valid-feedback">
-                                Looks good!
+                                Muy bien!
                             </div>
                             <div class="invalid-feedback">
-                                Enter a Password.
+                                Ingrese una contraseña.
                             </div>
                         </div>
                         <div class="d-grid gap-2">
  
-                            <button class="btn btn-success btn-block">Register</button>
+                            <button class="btn btn-success btn-block">Registrarte</button>
                         </div>
                     </form>
                 </div>

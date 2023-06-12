@@ -7,7 +7,7 @@
             <div class="carousel-inner">
                 <% campground.images.forEach((img, i) => { %>
                     <div class="carousel-item <%= i === 0 ? 'active' : ''%>">
-                        <img src="<%= img.url %>" class="d-block w-100" alt="">
+                        <img src="<%= img.url %>" class="d-block w-100 br" alt="">
                      </div>
                 <% }) %>
             </div>
@@ -29,14 +29,14 @@
               <ul class="list-group list-group-flush">
                     <li class="list-group-item text-muted"><%= campground.location %></li>
                     <li class="list-group-item">Creado por: <img class="authorImg" src="<%= campground.author.urlPerfil[0].url %>" alt=""> <%= campground.author.username %></li>
-                    <li class="list-group-item">$<%= campground.price %>/night</li>
+                    <li class="list-group-item">$<%= campground.price %> por noche</li>
               </ul>
               <% if( currentUser && campground.author.equals(currentUser._id)) {%>
                 <div class="card-body">
                         <p><% currentUser._id %></p>
-                        <a href="/campgrounds/<%= campground._id %>/edit" class="card-link btn btn-info">Edit</a>
+                        <a href="/campgrounds/<%= campground._id %>/edit" class="card-link btn btn-info me-2">Editar</a>
                         <form class="d-inline" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
-                            <button class="btn btn-danger">Delete</button>
+                            <button class="btn btn-danger">Borrar</button>
                         </form>
                 </div>
               <% } %>
@@ -47,11 +47,11 @@
         </div>
     </div>
     <div class="col-6 review">
-        <div id='map'></div>
+        <div class="mb-3 br" id='map'></div>
         <% if(currentUser){ %>
             <div class="card mb-3">
                 <div class="card-body">
-                    <h2>Leave a Review</h2>
+                    <h2 class="mb-3">Deja un comentario</h2>
                     <form action="/campgrounds/<%= campground._id %>/reviews" method="POST" class="mb-3 validated-form" novalidate>
                         <div class="mb-3">
                             <fieldset class="starability-basic">
@@ -70,13 +70,12 @@
                         </div>
         
                         <div class="mb-3">
-                            <label class="form-label" for="body">Review</label>
                             <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
                             <div class="valid-feedback">
-                                Looks good!
+                                Muy bien!
                             </div>
                         </div>
-                        <button class="btn btn-success">Submit</button>
+                        <button class="btn btn-success">Enviar</button>
                       </form>
                 </div>
             </div>
@@ -94,7 +93,7 @@
                     <p class="starability-result" data-rating="<%= campground.reviews[i].rating %>">
                         Rated: <%= campground.reviews[i].rating %> stars
                     </p>
-                    <p class="card-text">Review: <%= campground.reviews[i].body %></p>
+                    <p class="card-text"> <%= campground.reviews[i].body %></p>
                     <% if (currentUser && campground.reviews[i].author.equals(currentUser._id)) { %>
                         <form action="/campgrounds/<%= campground._id %>/reviews/<%= campground.reviews[i]._id %>?_method=DELETE" method="POST">
                         <button class="btn btn-sm btn-danger">Delete</button>
