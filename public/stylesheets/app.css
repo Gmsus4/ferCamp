@@ -16,6 +16,17 @@
     margin-top: 400px;
 }
 
+.img{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.img .carousel .carousel-inner .carousel-item img{
+    height: 300px;
+    object-fit: cover;
+}
+
 @media (max-width: 771px){
     .showmq{
         display: grid;
@@ -26,6 +37,10 @@
     .img{
         width: 100%;
     }
+}
+
+.card{
+    margin-bottom: 0 !important;
 }
 
 /* Peril User */
@@ -80,3 +95,19 @@
     align-items: center;
     margin: 10px 0 20px 0;
 }
+
+.timeReview{
+    font-size: 16px;
+    color: gray;
+    font-weight: 300;
+    margin-left: 15px;
+}
+
+.review{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 50px;
+}
+
+

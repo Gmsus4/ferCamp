@@ -3,6 +3,34 @@ const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken});
 
+const dayjs = require('dayjs');
+dayjs().format();
+
+const relativeTime = require('dayjs/plugin/relativeTime')
+dayjs.extend(relativeTime);
+
+const updateLocale = require('dayjs/plugin/updateLocale')
+
+dayjs.extend(updateLocale)
+
+dayjs.updateLocale('en', {
+  relativeTime: {
+    future: "Hace %s",
+    past: "%s ago",
+    s: 'unos segundos',
+    m: "un minuto",
+    mm: "%d minutos",
+    h: "una hora",
+    hh: "%d horas",
+    d: "un día",
+    dd: "%d días",
+    M: "un mes",
+    MM: "%d meses",
+    y: "un año",
+    yy: "%d años"
+  }
+})
+
 const cloudinary = require('cloudinary').v2;
 
 module.exports.index = async (req, res) =>{ //Mostrar los campamentos
@@ -32,11 +60,19 @@ module.exports.createCampground = async (req, res, next) =>{
 module.exports.showCampground = async (req, res) =>{
     const campground = await Campground.findById(req.params.id).populate({ path: 'reviews', populate: { path: 'author' } }).populate('author');
     //console.log(campground.reviews[0].author.urlPerfil[0].url)
+    const time = dayjs(campground.createdAt).toNow();
+    let timeReviews = [];    
+    for(let i of campground.reviews){
+        timeReviews.push([dayjs(i.createdAt).toNow()]);
+    }
+    //console.log(timeReviews);
+    //const timeReview = dayjs(review.createdAt).toNow();
+    //console.log(campground);
     if(!campground){
         req.flash('error', 'No se encontró el campamento');
         return res.redirect('/campgrounds');
     }
-    res.render('campgrounds/show', {campground });
+    res.render('campgrounds/show', {campground, time, timeReviews });
 }
 
 module.exports.renderEditForm = async (req, res) =>{ 
